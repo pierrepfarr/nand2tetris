@@ -14,17 +14,22 @@ class White_Space():
 
     def clean(self):
         temp = self.__read_file()
-        temp = re.sub(White_Space.pattern_1,"",temp)
-        temp = re.sub(White_Space.pattern_2,"",temp)
-        temp = temp.strip()
+        temp = re.sub(White_Space.pattern_1,"",temp) #remove comments
+        temp = re.sub(White_Space.pattern_2,"",temp) #remove comments
+        temp = temp.replace("\t","") #remove tabs
+        temp = temp.replace(" ","") #remove spaces
         self.clean_file = temp
 
     def output(self):
         fname = self.fname[:-3]
         output_path = self.dir +"/" + fname +".out"
         print(output_path)
+
         with open(output_path,"w") as f:
-            f.write(self.clean_file)
+            lines = self.clean_file.splitlines(True)
+            for line in lines:
+                if not line.isspace(): #making sure no blank lines make it out
+                    f.write(line)
 
     def __read_file(self)->str:
         try:
@@ -33,6 +38,7 @@ class White_Space():
             return lines
         except:
             print("Could not find the file")
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Accepts file and removes whitespace/comments")
