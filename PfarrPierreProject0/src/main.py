@@ -23,7 +23,6 @@ class White_Space():
     def output(self):
         fname = self.fname[:-3]
         output_path = self.dir +"/" + fname +".out"
-        print(output_path)
 
         with open(output_path,"w") as f:
             lines = self.clean_file.splitlines(True)
