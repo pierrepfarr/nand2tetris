@@ -3,6 +3,19 @@ import argparse
 import re
 
 class White_Space():
+    """
+    Object to read, clean comments and whitespace, and output text files
+
+    Class Attributes:
+    pattern_1: regex match // to the end of a line for each line
+    pattern_2: regex matching /* to */ allowing to span multiple lines
+
+    Instance Attributes:
+    dir: directory of the input file
+    fname: filename of the input file
+    file: full file path
+    clean_file: cleaned str
+    """
     pattern_1 = re.compile("\/{2}.*$",re.MULTILINE)
     pattern_2 = re.compile("\/\*.*\*\/",re.DOTALL)
 
@@ -41,7 +54,8 @@ class White_Space():
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Accepts file and removes whitespace/comments")
-    parser.add_argument('file_path',type=str, metavar='file_path', help="file_path")
+    # accept a postional arguement for the file path
+    parser.add_argument('file_path',type=str, metavar='file_path', help="file_path")  
     args = parser.parse_args()
 
     file_in = args.file_path
