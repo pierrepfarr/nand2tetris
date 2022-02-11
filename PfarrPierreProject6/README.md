@@ -25,4 +25,4 @@ $Home/src python3 main.py ./input.asm
 
 ## Results 
 
-Successfully compared by running pong and example files. Also by comparing output to output from the nand2tetris given assembler.
+Successfully compared by running pong, example files, and previous project files. Also by comparing output to output from the nand2tetris given assembler.
