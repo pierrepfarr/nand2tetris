@@ -5,7 +5,8 @@
        M=1    // i=1
        @sum   // sum refers to some mem. location.
        M=0    // sum=0
-(LOOP) @i
+(LOOP) 
+     @i
        D=M    // D=i
        @100
        D=D-A  // D=i-100

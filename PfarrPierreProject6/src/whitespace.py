@@ -40,7 +40,7 @@ class White_Space():
         with open(output_path,"w") as f:
             lines = self.clean_file.splitlines(True)
             for line in lines:
-                if not line.isspace(): #making sure no blank lines make it out
+                if not line.isspace() and len(line) != 0: #making sure no blank lines make it out
                     f.write(line)
 
     def __read_file(self)->str:
