@@ -34,20 +34,44 @@ class Assemble:
 
     def strip_labels(self,program_str):
         """strip the labels out of the program and put in table"""
-        pass
+        lines = program_str.splitlines()
+        return lines
 
+    def make_hack_instr(self):
+        for line in self.asm_instr:
+            translated = self.translate_instruction(line)
+            self.hack_instr.append(translated)
+    
+    def translate_instruction(self,instr):
+        hack_instr=""
+        if "=" in instr:
+            hack_instr = self.c_instr_eq(instr)
+        elif ";" in instr:
+            hack_instr = ""
+        elif "@" in instr:
+            hack_instr = ""
+        return hack_instr
 
-    
-    def c_instr(self):
-        """generate a c instr"""
-    
-    def check_left(self):
+    def c_instr_eq(self,instr):
+        """translate a c instr"""
+        expression = instr.split("=")
+        left = expression[0]
+        right = expression[1]
+        dest = self.check_left(left)
+        comp = self.check_right(right)
+        hack_instr = "111"+comp+dest+"000"
+        return hack_instr
+
+    def check_left(self,left_hand):
         """look up the left side of ="""
-        pass
+        if left_hand in self.destinations:
+            return self.destinations[left_hand]
+        else:
+            return self.destinations["Null"]
 
-    def check_right(self):
+    def check_right(self,right_hand):
         """look up the right side of ="""
-        pass
+        return self.comp[right_hand]
 
     
 
@@ -68,4 +92,6 @@ if __name__ == "__main__":
     file_in = args.file_path
     file_out = White_Space(file_in)
     file_out.clean()
- 
+    translated = Assemble(file_out.clean_file)
+    translated.make_hack_instr()
+
