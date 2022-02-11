@@ -46,10 +46,12 @@ class Assemble:
         line_num = 0
         for line in program_str.splitlines()  :
             if not line.isspace() and len(line) != 0:
+                
                 if line.startswith("("):
                     symbol = line[1:-1]
                     if symbol not in self.symbols:
                         self.symbols[symbol] = line_num
+                
                 elif line.startswith("@") and not line[1:].isdecimal():
                     symbol = line[1:]
                     if symbol not in self.symbols:
@@ -57,6 +59,7 @@ class Assemble:
                         self.increment_var_mem()
                     lines.append(line)
                     line_num +=1
+                
                 else:
                     lines.append(line)
                     line_num +=1
@@ -128,12 +131,12 @@ class Assemble:
     
     def increment_var_mem(self):
         self.var_mem += 1
-        if self.var_mem > 32767:
-            raise ValueError
+        # if self.var_mem > 32767:
+        #     raise ValueError
 
 
     def output(self,dir,fname):
-        fname = fname[:-3]
+        fname = fname[:-4]
         output_path = dir +"/" + fname +".hack"
 
         with open(output_path,"w") as f:
