@@ -35,23 +35,23 @@ class Assemble:
                         "R10":10,"R11":11,"R12":12,
                         "R13":13,"R14":14,"R15":15,
                         "SCREEN":16384,"KBD":24576,}
+        self.program_str = program_str
         self.var_mem = 16                               #variables start being store at 16   
         self.asm_instr = self.strip_labels(program_str) #clean asm instructions
         self.hack_instr = []                            #binary/hack instructions
         
 
+
+
     def strip_labels(self,program_str):
         """strip the labels out of the program and stores symbols in look up"""
+        self.store_labels(program_str)
         lines = []
         line_num = 0
         for line in program_str.splitlines()  :
             if not line.isspace() and len(line) != 0:
-                
                 if line.startswith("("):
-                    symbol = line[1:-1]
-                    if symbol not in self.symbols:
-                        self.symbols[symbol] = line_num
-                
+                    continue
                 elif line.startswith("@") and not line[1:].isdecimal():
                     symbol = line[1:]
                     if symbol not in self.symbols:
@@ -59,11 +59,23 @@ class Assemble:
                         self.increment_var_mem()
                     lines.append(line)
                     line_num +=1
-                
                 else:
                     lines.append(line)
                     line_num +=1
         return lines
+
+    def store_labels(self,program_str):
+        line_cnt = 0
+        labels = 0
+        for line in program_str.splitlines():
+            if not line.isspace() and len(line) != 0:
+                if line.startswith("("):
+                    symbol = line[1:-1]
+                    if symbol not in self.symbols:
+                        self.symbols[symbol] = (line_cnt-labels)
+                        labels += 1
+                line_cnt += 1
+
 
     def make_hack_instr(self):
         """go through each line and translate to binary"""
@@ -163,15 +175,4 @@ if __name__ == "__main__":
     assembler = Assemble(input_file.clean_file)
     assembler.make_hack_instr()
     assembler.output(input_file.dir,input_file.fname)
-    
-    
-    
-    
-    
-    
-    # print(translated.program_str)
-    # print(translated.asm_instr)
-    # print(translated.symbols)
-    
-    # print(translated.hack_instr)
 
