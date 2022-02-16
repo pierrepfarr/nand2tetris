@@ -3,7 +3,8 @@ from whitespace import White_Space
 
 
 class Assemble:
-    """class attributes are constant lookups"""
+    """class attributes are command look-up tables"""
+    
     destinations = {"Null":"000","M":"001","D":"010",
                     "A":"100","MD":"011","DM":"011",
                     "MA":"101","AM":"101","DA":"110",
@@ -35,6 +36,7 @@ class Assemble:
                         "R10":10,"R11":11,"R12":12,
                         "R13":13,"R14":14,"R15":15,
                         "SCREEN":16384,"KBD":24576,}
+        
         self.program_str = program_str
         self.var_mem = 16                               #variables start being store at 16   
         self.asm_instr = self.strip_labels(program_str) #clean asm instructions
@@ -44,14 +46,16 @@ class Assemble:
 
 
     def strip_labels(self,program_str):
-        """strip the labels out of the program and stores symbols in look up"""
+        """store and strip the labels and store variable symbols in look up"""
         self.store_labels(program_str)
         lines = []
         line_num = 0
+        
         for line in program_str.splitlines()  :
             if not line.isspace() and len(line) != 0:
                 if line.startswith("("):
                     continue
+                
                 elif line.startswith("@") and not line[1:].isdecimal():
                     symbol = line[1:]
                     if symbol not in self.symbols:
@@ -59,14 +63,17 @@ class Assemble:
                         self.increment_var_mem()
                     lines.append(line)
                     line_num +=1
+                
                 else:
                     lines.append(line)
                     line_num +=1
         return lines
 
+    
     def store_labels(self,program_str):
+        """function to do a first pass and store the location of labels"""
         line_cnt = 0
-        labels = 0
+        labels = 0    
         for line in program_str.splitlines():
             if not line.isspace() and len(line) != 0:
                 if line.startswith("("):
@@ -82,6 +89,7 @@ class Assemble:
         for line in self.asm_instr:
             translated = self.translate_instruction(line)
             self.hack_instr.append(translated)
+    
     
     def translate_instruction(self,instr):
         """depending on instr call correct logic"""
@@ -111,9 +119,11 @@ class Assemble:
         expression = instr.split(";")
         left =  expression[0]
         right = expression[1]
+        
         dest = self.destinations["Null"]
         comp = self.comp[left]
         jmp = self.jumps[right]
+        
         hack_instr = "111"+comp+dest+jmp
         return hack_instr
 
@@ -123,9 +133,11 @@ class Assemble:
         expression = instr.split("=")
         left = expression[0]
         right = expression[1]
+        
         dest = self.check_left(left)
         comp = self.check_right(right)
         jmp = self.jumps["Null"]
+        
         hack_instr = "111"+comp+dest+jmp
         return hack_instr
 
@@ -163,8 +175,8 @@ class Assemble:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Accepts file")
-    # accept a postional arguement for the file path
     parser.add_argument('file_path',type=str, metavar='file_path', help="file_path")  
+    
     args = parser.parse_args()
 
     file_in = args.file_path
