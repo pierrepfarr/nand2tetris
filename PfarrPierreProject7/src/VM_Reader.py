@@ -11,6 +11,7 @@ class Reader:
         
 
     def clean_instructions(self):
+        """cleans our vm file"""
         instructions = []
         lines = self.__read_file()
         for line in lines.splitlines():
@@ -32,8 +33,15 @@ class Reader:
             print("Could not find the file")
 
 
-    def output(self):
-        pass
+    def output(self,instructions):
+        """outputs our asm file to the correct place"""
+        fname = self.fname[:-3]
+        output_path = self.dir +"/" + fname +".asm"
+
+        with open(output_path,"w") as f:
+            for line in instructions:
+                if not line.isspace() and len(line) != 0: #making sure no blank lines make it out
+                    f.write(line)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Accepts file and removes whitespace/comments")
