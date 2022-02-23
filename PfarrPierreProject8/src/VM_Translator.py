@@ -9,19 +9,29 @@ import os
 
 class Translator:
 
-    def __init__(self,instructions,label_cnt=0):
+    def __init__(self,instructions,fname,label_cnt=0):
         self.vm_instructions = instructions
         self.asm_instructions = []
         self.label_cnt = label_cnt
+        self.fname = fname[:-3]
 
     def translate(self):
         """check for vm instruction and translate storing to asm_instr list"""
         for instruction in self.vm_instructions:
-            if "push" in instruction or "pop" in instruction:
+            command = instruction.split(" ")[0]
+            
+            if command in ["push","pop"]:
                 mem_instr = Memory_Access(instruction)
                 mem_instr.translate()
                 for instr in mem_instr.asm_instructions:
                     self.asm_instructions.append(instr)
+            
+            elif command in ["label","goto","if-goto"]:
+                branch_instr = Branching(instruction)
+                branch_instr.translate()
+                for instr in branch_instr.asm_instructions:
+                    self.asm_instructions.append(instr)
+
             else:
                 arithmetic_instr = Stack_Arithmetic(instruction,self.label_cnt)
                 arithmetic_instr.translate()
@@ -56,9 +66,11 @@ if __name__ == "__main__":
     for file_in in vm_files:
         file_out = Reader(file_in)
         vm_instructions = file_out.clean_instructions()
-        translator = Translator(vm_instructions,label_cnt)
+        
+        translator = Translator(vm_instructions,file_out.fname,label_cnt)
         file_asm_instructions = translator.translate()
         label_cnt = translator.label_cnt
+        
         asm_instructions.extend(file_asm_instructions)
     
     file_out.output(asm_instructions)

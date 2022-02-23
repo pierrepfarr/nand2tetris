@@ -22,11 +22,11 @@ class Branching:
             self.asm_instructions.append(instr)
         else:
             instr = self.if_goto()
-            self.asm_instructions(instr)
+            self.asm_instructions.append(instr)
         
     def assign_label(self):
         """assign a label an address"""
-        return f"@{self.label}\n"
+        return f"({self.label})\n"
 
     def goto(self):
         """unconditional jmp to label"""
@@ -39,8 +39,8 @@ class Branching:
         pop = self.get_from_stack()
         instr = [f"@{self.label}\n",
                  "D;JNE\n"]
-        instr = pop.extend(instr)
-        return ''.join(instr)
+        instr = ''.join(instr)
+        return pop + instr
 
     def get_from_stack(self):
         """Load Pointer, Decrement, Set SP Memory and Address,

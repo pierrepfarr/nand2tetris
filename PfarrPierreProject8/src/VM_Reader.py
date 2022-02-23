@@ -1,29 +1,33 @@
 import argparse
 import os
+import re
 
 class Reader:
 
-    
+    pattern_1 = re.compile("\/{2}.*$",re.MULTILINE)
+    pattern_2 = re.compile("\/\*.*?\*\/",re.DOTALL)
+
     def __init__(self,file):
         self.dir = os.path.dirname(os.path.abspath(file))
         self.fname = os.path.basename(file)
         self.file = file
-        
+
+
 
     def clean_instructions(self):
         """cleans our vm file"""
         instructions = []
-        lines = self.__read_file()
-        for line in lines.splitlines():
+
+        temp = self.__read_file()
+        temp = re.sub(Reader.pattern_1,"",temp) #remove comments
+        temp = re.sub(Reader.pattern_2,"",temp) #remove comments
+        for line in temp.splitlines():
             if line == "" or line == "\n":
                 continue
-
-            if line[:2] == "//":
-                continue
-            
-            instructions.append(line)
+            instructions.append(line.strip())
         return instructions
-    
+
+
     def __read_file(self)->str:
         try:
             with open(self.file) as f:
