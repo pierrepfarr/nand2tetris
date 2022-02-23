@@ -1,3 +1,4 @@
+from Branching import Branching
 from VM_Reader import Reader
 from Arithmetic import Stack_Arithmetic
 from Memory_Access import Memory_Access
@@ -8,15 +9,14 @@ import os
 
 class Translator:
 
-    def __init__(self,instructions):
+    def __init__(self,instructions,label_cnt=0):
         self.vm_instructions = instructions
         self.asm_instructions = []
-        self.label_cnt = 0
+        self.label_cnt = label_cnt
 
     def translate(self):
         """check for vm instruction and translate storing to asm_instr list"""
         for instruction in self.vm_instructions:
-            #print(instruction)
             if "push" in instruction or "pop" in instruction:
                 mem_instr = Memory_Access(instruction)
                 mem_instr.translate()
@@ -50,13 +50,18 @@ if __name__ == "__main__":
 
     vm_files = glob.glob(folder_dir+"/*.vm")
     
+    label_cnt = 0
+    asm_instructions = []
+    
     for file_in in vm_files:
         file_out = Reader(file_in)
-        instrutions = file_out.clean_instructions()
-        translator = Translator(instrutions)
-        asm_instructions = translator.translate()
-        file_out.output(asm_instructions)
-
+        vm_instructions = file_out.clean_instructions()
+        translator = Translator(vm_instructions,label_cnt)
+        file_asm_instructions = translator.translate()
+        label_cnt = translator.label_cnt
+        asm_instructions.extend(file_asm_instructions)
+    
+    file_out.output(asm_instructions)
 
 
 
