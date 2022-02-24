@@ -39,7 +39,7 @@ class Reader:
 
     def output(self,instructions):
         """outputs our asm file to the correct place"""
-        fname = self.fname[:-3]
+        fname = os.path.basename(self.dir)
         output_path = self.dir +"/" + fname +".asm"
 
         with open(output_path,"w") as f:

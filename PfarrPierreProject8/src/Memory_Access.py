@@ -12,8 +12,9 @@ class Memory_Access:
                              "temp":5,
                              "static":16}
 
-    def __init__(self,instruction):
+    def __init__(self,instruction,fname):
         self.instruction = instruction
+        self.fname = fname
         self.command, self.segment, self.index = self.__break(instruction)
         self.asm_instructions=[]
 
@@ -30,33 +31,53 @@ class Memory_Access:
         """check for for pop or push and call the logic"""
         
         if self.command == "pop":
-            load = self.load_addr() # load the segment addr
-            store = self.store_addr(index=0) # store the addr
-            pop = self.get_from_stack() # get stack val
-            store_2 = self.store_addr(index=1) # store the stack val
-            set = self.set_addr_to_pop() # set the addr to val
+            if self.segment == "static":
+                pop = self.get_from_stack() # get stack val
+                load = f"@{self.fname}.{self.index}\n" #load static location
+                set = "M=D\n"
 
-            #self.asm_instructions.append(f"//{self.instruction}\n") uncomment to debug
-            self.asm_instructions.append(load)
-            self.asm_instructions.append(store)
-            self.asm_instructions.append(pop)
-            self.asm_instructions.append(store_2)
-            self.asm_instructions.append(set)
+                self.asm_instructions.append(pop)
+                self.asm_instructions.append(load)
+                self.asm_instructions.append(set)
+
+            else:
+                load = self.load_addr() # load the segment addr
+                store = self.store_addr(index=0) # store the addr
+                pop = self.get_from_stack() # get stack val
+                store_2 = self.store_addr(index=1) # store the stack val
+                set = self.set_addr_to_pop() # set the addr to val
+
+                self.asm_instructions.append(load)
+                self.asm_instructions.append(store)
+                self.asm_instructions.append(pop)
+                self.asm_instructions.append(store_2)
+                self.asm_instructions.append(set)
 
         else:
-            load = self.load_addr() # load addr
-            if self.segment != "constant":
-                value = self.get_value_at_addr() # if not constant get value at addr
+            if self.segment == "static":
+                load = f"@{self.fname}.{self.index}\n"
+                get_value = "D=M\n"  #get static value
+                put = self.put_on_stack() 
+                move = self.increment_sp()
+
+                self.asm_instructions.append(load)
+                self.asm_instructions.append(get_value)
+                self.asm_instructions.append(put)
+                self.asm_instructions.append(move)
+                
             else:
-                value = False
-            put = self.put_on_stack() # put on stack
-            move = self.increment_sp() # move pointer
-            
-            #self.asm_instructions.append(f"//{self.instruction}\n") uncomment to debug
-            self.asm_instructions.append(load)
-            if value: self.asm_instructions.append(value)
-            self.asm_instructions.append(put)
-            self.asm_instructions.append(move)
+                load = self.load_addr() # load addr
+                if self.segment != "constant":
+                    value = self.get_value_at_addr() # if not constant get value at addr
+                else:
+                    value = False
+                put = self.put_on_stack() # put on stack
+                move = self.increment_sp() # move pointer
+                 
+                self.asm_instructions.append(load)
+                if value: self.asm_instructions.append(value)
+                self.asm_instructions.append(put)
+                self.asm_instructions.append(move)
 
     
     def load_addr(self):

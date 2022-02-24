@@ -1,13 +1,13 @@
-## Project 7 VM Pt 1
+## Project 8 VM Pt 2
 <br>
 
 ### Overview
-The following module turns VM code in Hack assembly code. The script accepts VM file ending in .vm and outputs an asm file ending in .asm in the same directory as the input.
+The following module turns VM code in Hack assembly code. The script accepts a directory with VM files ending in .vm and outputs an asm file ending in .asm in the same directory as the input. Code includes bootstrapping sys to start.
 
 ### Requirements
 - python3
-- input file ending in .vm
-- The script makes use of the argparse, re, and os modules from the python standard library 
+- input directory with .vm files
+- The script makes use of the argparse, re, glob, and os modules from the python standard library 
 
 ### Usage
 
@@ -15,14 +15,14 @@ To run the file, navigate to the src directory and call python to execute the fi
 
 Absolute example:
 ```bash
-$Home/src python3 VM_Translator.py root/desktop/input.VM
+$Home/src python3 VM_Translator.py root/desktop/input_dir/
 ```
 
 Relative example:
 ```bash
-$Home/src python3 VM_Translator.py ./input.vm
+$Home/src python3 VM_Translator.py ./input_dir/
 ```
 
 ## Results 
 
-Successfully passed all test scripts provided.
+Successfully passed all test scripts provided. 

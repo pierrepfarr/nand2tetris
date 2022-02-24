@@ -22,7 +22,7 @@ class Translator:
             command = instruction.split(" ")[0]
             
             if command in ["push","pop"]:
-                mem_instr = Memory_Access(instruction)
+                mem_instr = Memory_Access(instruction,self.fname)
                 mem_instr.translate()
                 for instr in mem_instr.asm_instructions:
                     self.asm_instructions.append(instr)
@@ -50,9 +50,21 @@ class Translator:
         
         return self.asm_instructions
 
+    @staticmethod
+    def sys_init():
+        """bootstrap instructions"""
+        instr= ["@256\n",
+                "D=A\n",
+                "@SP\n",
+                "M=D\n"]
+        call_instr = Functions("call Sys.init 0",0)
+        call_instr.translate()
+        instr.extend(call_instr.asm_instructions)
+        return ''.join(instr)
 
     def increment_label(self):
         self.label_cnt += 1
+
 
 
 
@@ -64,12 +76,15 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     folder = args.folder_path
-    folder_dir = os.path.abspath(folder)
+    folder_dir = os.path.abspath(folder) 
 
-    vm_files = glob.glob(folder_dir+"/*.vm")
+    vm_files = glob.glob(folder_dir+"/*.vm") #list of vm files
     
     label_cnt = 0
     asm_instructions = []
+
+    boot_strap = Translator.sys_init()
+    asm_instructions.append(boot_strap) #start with bootstrap instructions
     
     for file_in in vm_files:
         file_out = Reader(file_in)
