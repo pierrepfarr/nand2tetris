@@ -1,3 +1,4 @@
+from Functions import Functions
 from Branching import Branching
 from VM_Reader import Reader
 from Arithmetic import Stack_Arithmetic
@@ -31,7 +32,14 @@ class Translator:
                 branch_instr.translate()
                 for instr in branch_instr.asm_instructions:
                     self.asm_instructions.append(instr)
-
+            
+            elif command in ["function","call","return"]:
+                function_instr = Functions(instruction,self.label_cnt)
+                function_instr.translate()
+                for instr in function_instr.asm_instructions:
+                    self.asm_instructions.append(instr)
+                if command == "call":
+                    self.increment_label()
             else:
                 arithmetic_instr = Stack_Arithmetic(instruction,self.label_cnt)
                 arithmetic_instr.translate()
