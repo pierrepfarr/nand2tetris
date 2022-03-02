@@ -1,0 +1,74 @@
+function Seeker.new 0
+push constant 2
+call Memory.alloc 1
+pop pointer 0
+push argument 0
+pop this 0
+push argument 1
+pop this 1
+push pointer 0
+call Seeker.draw 1
+pop temp 0
+push pointer 0
+return
+function Seeker.get_x_loc 0
+push argument 0
+pop pointer 0
+push this 0
+return
+function Seeker.get_y_loc 0
+push argument 0
+pop pointer 0
+push this 1
+return
+function Seeker.draw 0
+push argument 0
+pop pointer 0
+push this 0
+push this 1
+push this 0
+push constant 40
+add
+push this 1
+push constant 15
+add
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push this 0
+push constant 1
+add
+push this 1
+push constant 1
+add
+push this 0
+push constant 39
+add
+push this 1
+push constant 14
+add
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push constant 0
+return
+function Seeker.draw_left_wing 0
+push argument 0
+pop pointer 0
+push constant 0
+return
+function Seeker.draw_right_wing 0
+push argument 0
+pop pointer 0
+push constant 0
+return
+function Seeker.new_location 0
+push argument 0
+pop pointer 0
+push constant 0
+return

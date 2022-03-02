@@ -1,0 +1,35 @@
+class Game {
+    field Bludger bludger1;
+    field Bludger bludger2;
+    field Snitch snitch;
+    field Seeker seeker;
+    field int score;
+
+    constructor Game new(int Ascore) {
+        let score = Ascore;
+        do Instructions.welcome();
+        do Instructions.make_screen(score);
+        let bludger1 = Bludger.new(170,128);
+        let bludger2 = Bludger.new(342,128);
+        do bludger2.set_down_false();
+        let snitch = Snitch.new(256,128);
+        let seeker = Seeker.new(30,128);
+        return this;
+    }
+
+
+    method void run() {
+
+        var boolean running;
+        let running = true;
+
+        while(running){
+            do Sys.wait(2);
+            do bludger1.move();
+            do Sys.wait(2);
+            do bludger2.move();
+        }
+        return;
+    }
+    
+}

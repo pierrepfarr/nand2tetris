@@ -1,0 +1,44 @@
+class Seeker {
+    field int x;
+    field int y;
+
+    /* Construct Bludger */
+    
+    constructor Seeker new(int Ax, int Ay) {
+        let x = Ax;
+        let y = Ay;
+        do draw();
+        return this;
+    }
+
+    method int get_x_loc() {
+        return x;
+    }
+
+    method int get_y_loc() {
+        return y;
+    }
+
+    method void draw() {
+        do Screen.drawRectangle(x,y,x+40,y+15);
+        do Screen.setColor(false);
+        do Screen.drawRectangle(x+1,y+1,x+39,y+14);
+        do Screen.setColor(true);
+        return;
+    }
+
+
+    method void draw_left_wing() {
+        return;
+    }
+    
+    method void draw_right_wing(){
+        return;
+    }
+
+    method void new_location() {
+        return;
+    }
+
+
+}

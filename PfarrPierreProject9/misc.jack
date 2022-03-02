@@ -1,0 +1,25 @@
+    method void roam() {
+        var boolean flag;
+        var boolean down;
+        var int count;
+        let flag = true;
+        let down = true;
+        let count = 1000;
+        
+        while (count > 0) {
+            if (y < 159 & (down)) {
+                do move_down();
+            }
+            if (y = 159){
+                let down = false;
+            }
+            if ( y > 0 & ~(down)) {
+                do move_up();
+            }
+            if (y = 0){
+                let down = true;
+            }
+            let count = count-1;
+        }
+        return;
+    }

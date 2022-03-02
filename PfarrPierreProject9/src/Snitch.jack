@@ -1,0 +1,51 @@
+class Snitch {
+    field int x;
+    field int y;
+    field int r;
+
+    /* Construct Bludger */
+    
+    constructor Snitch new(int Ax, int Ay) {
+        let x = Ax;
+        let y = Ay;
+        let r = 4;
+        do draw();
+        return this;
+    }
+
+    method int get_x_loc() {
+        return x;
+    }
+
+    method int get_y_loc() {
+        return y;
+    }
+
+    method void draw() {
+        do Screen.drawRectangle(x-r-1,y-r-1,x+r+1,y+r+1);
+        do Screen.setColor(false);
+        do Screen.drawRectangle(x-r,y-r,x+r,y+r);
+        do Screen.setColor(true);
+        do Screen.drawCircle(x,y,r);
+        return;
+    }
+
+    method void draw_cirle() {
+        do Screen.drawCircle(x,y,r);
+        return;
+    }
+
+    method void draw_left_wing() {
+        return;
+    }
+    
+    method void draw_right_wing(){
+        return;
+    }
+
+    method void new_location() {
+        return;
+    }
+
+
+}

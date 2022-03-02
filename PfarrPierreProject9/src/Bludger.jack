@@ -1,0 +1,78 @@
+class Bludger {
+    
+    field int x;
+    field int y;
+    field int r;
+    field boolean down;
+
+    /* Construct Bludger */
+    
+    constructor Bludger new(int Ax, int Ay) {
+        let x = Ax;
+        let y = Ay;
+        let r = 9;
+        let down = true;
+        do draw();
+        return this;
+    }
+
+    method int get_x_loc() {
+        return x;
+    }
+
+    method int get_y_loc() {
+        return y;
+    }
+
+    method void set_down_false() {
+        let down = false;
+        return;
+    }
+
+    method void draw() {
+        do Screen.drawCircle(x,y,r);
+        return;
+    }
+
+    method void new_location() {
+        return;
+    }
+
+
+    method void move() {
+        if ((down) & (y < 220)) {
+            do move_down();
+        }
+        if (y=220){
+            let down = false;
+        }
+        if (~(down) & (y > 35)){
+            do move_up();
+        }
+        if (y=35) {
+            let down = true;
+        }
+        return;
+    }
+
+    method void move_up() {
+        do Screen.setColor(false);
+        do draw();
+        do Screen.setColor(true);
+        let y = y-1;
+        do draw();
+        do Sys.wait(10);
+        return;
+    }
+
+    method void move_down() {
+        do Screen.setColor(false);
+        do draw();
+        do Screen.setColor(true);
+        let y = y+1;
+        do draw();
+        do Sys.wait(10);
+        return;
+    }
+
+}

@@ -1,0 +1,5 @@
+class Random {
+    function void welcome(){
+        return;
+    }
+}

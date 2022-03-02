@@ -1,0 +1,3 @@
+function Random.welcome 0
+push constant 0
+return
