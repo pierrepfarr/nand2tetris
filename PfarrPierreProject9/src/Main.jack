@@ -3,8 +3,25 @@ class Main {
     function void main() {
         var int score;
         var Game game;
+
         let score = 0;
+        do Instructions.welcome();
         let game = Game.new(score);
+        
+        
+        // while(score < 10){
+        //  do game.run();   
+        //  if (status == "hit"){
+        //     score = score + 1
+        //     game = game.new(score)
+        //     move = Bludger
+        //     move = bludger1
+        //     move = snitch 
+        //  }   
+        //  else
+        
+        // }
+        
         do game.run();
         return;
     }

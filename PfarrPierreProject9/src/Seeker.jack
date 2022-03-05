@@ -27,6 +27,12 @@ class Seeker {
         return;
     }
 
+    method void erase() {
+        do Screen.setColor(false);
+        do Screen.drawRectangle(x,y,x+40,y+15);
+        do Screen.setColor(true);
+        return;     
+    }
 
     method void draw_left_wing() {
         return;
@@ -36,9 +42,57 @@ class Seeker {
         return;
     }
 
-    method void new_location() {
+    method boolean check_collision(Bludger bludger){
+        var x_loc;
+        var y_loc;
+        var radius;
         return;
     }
+
+    method boolean check_catch(Snitch snitch){
+        var x_loc;
+        var y_loc;
+        var radius;
+        return;
+    }
+
+    method void moveUp() {
+        if (y > 25) {
+            do erase();
+            let y = y - 5;
+            do draw();
+        }
+        return;
+    }
+
+    method void moveDown() {
+        if ((y + 15) < 230) {
+            do erase();
+            let y = y + 5;
+            do draw();
+        }
+        return;
+    }
+
+    method void moveLeft() {
+        if (x > 20) {
+            do erase();
+            let x = x - 5;
+            do draw();
+        }
+        return;
+    }
+
+    method void moveRight() {
+        if ((x+40) < 490) {
+            do erase();
+            let x = x + 5;
+            do draw();
+        }
+        return;
+    }
+
+    
 
 
 }

@@ -1,5 +1,5 @@
 function Bludger.new 0
-push constant 4
+push constant 8
 call Memory.alloc 1
 pop pointer 0
 push argument 0
@@ -10,7 +10,7 @@ push constant 9
 pop this 2
 push constant 0
 not
-pop this 3
+pop this 7
 push pointer 0
 call Bludger.draw 1
 pop temp 0
@@ -30,16 +30,93 @@ function Bludger.set_down_false 0
 push argument 0
 pop pointer 0
 push constant 0
-pop this 3
+pop this 7
 push constant 0
 return
 function Bludger.draw 0
 push argument 0
 pop pointer 0
 push this 0
+push this 2
+sub
+push constant 1
+sub
+push this 1
+push this 2
+sub
+push constant 1
+sub
+push this 0
+push this 2
+add
+push constant 1
+add
+push this 1
+push this 2
+add
+push constant 1
+add
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push this 0
+push this 2
+sub
+push this 1
+push this 2
+sub
+push this 0
+push this 2
+add
+push this 1
+push this 2
+add
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push this 0
 push this 1
 push this 2
 call Screen.drawCircle 3
+pop temp 0
+push constant 0
+return
+function Bludger.erase 0
+push argument 0
+pop pointer 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push this 0
+push this 2
+sub
+push constant 1
+sub
+push this 1
+push this 2
+sub
+push constant 1
+sub
+push this 0
+push this 2
+add
+push constant 1
+add
+push this 1
+push this 2
+add
+push constant 1
+add
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+not
+call Screen.setColor 1
 pop temp 0
 push constant 0
 return
@@ -51,7 +128,7 @@ return
 function Bludger.move 0
 push argument 0
 pop pointer 0
-push this 3
+push this 7
 push this 1
 push constant 220
 lt
@@ -65,14 +142,14 @@ pop temp 0
 label IF_FALSE0
 push this 1
 push constant 220
-eq
+gt
 if-goto IF_TRUE1
 goto IF_FALSE1
 label IF_TRUE1
 push constant 0
-pop this 3
+pop this 7
 label IF_FALSE1
-push this 3
+push this 7
 not
 push this 1
 push constant 35
@@ -87,37 +164,34 @@ pop temp 0
 label IF_FALSE2
 push this 1
 push constant 35
+lt
+push this 1
+push constant 35
 eq
+or
 if-goto IF_TRUE3
 goto IF_FALSE3
 label IF_TRUE3
 push constant 0
 not
-pop this 3
+pop this 7
 label IF_FALSE3
 push constant 0
 return
 function Bludger.move_up 0
 push argument 0
 pop pointer 0
-push constant 0
-call Screen.setColor 1
-pop temp 0
 push pointer 0
-call Bludger.draw 1
-pop temp 0
-push constant 0
-not
-call Screen.setColor 1
+call Bludger.erase 1
 pop temp 0
 push this 1
-push constant 1
+push constant 3
 sub
 pop this 1
 push pointer 0
 call Bludger.draw 1
 pop temp 0
-push constant 10
+push constant 5
 call Sys.wait 1
 pop temp 0
 push constant 0
@@ -125,24 +199,17 @@ return
 function Bludger.move_down 0
 push argument 0
 pop pointer 0
-push constant 0
-call Screen.setColor 1
-pop temp 0
 push pointer 0
-call Bludger.draw 1
-pop temp 0
-push constant 0
-not
-call Screen.setColor 1
+call Bludger.erase 1
 pop temp 0
 push this 1
-push constant 1
+push constant 3
 add
 pop this 1
 push pointer 0
 call Bludger.draw 1
 pop temp 0
-push constant 10
+push constant 5
 call Sys.wait 1
 pop temp 0
 push constant 0

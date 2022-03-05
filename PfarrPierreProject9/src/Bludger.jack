@@ -3,6 +3,10 @@ class Bludger {
     field int x;
     field int y;
     field int r;
+    field int top;
+    field int bot;
+    field int left;
+    field int right;
     field boolean down;
 
     /* Construct Bludger */
@@ -30,11 +34,23 @@ class Bludger {
     }
 
     method void draw() {
+        do Screen.drawRectangle(x-r-1,y-r-1,x+r+1,y+r+1);
+        do Screen.setColor(false);
+        do Screen.drawRectangle(x-r,y-r,x+r,y+r);
+        do Screen.setColor(true);
         do Screen.drawCircle(x,y,r);
         return;
     }
 
+
+    method void erase() {
+        do Screen.setColor(false);
+        do Screen.drawRectangle(x-r-1,y-r-1,x+r+1,y+r+1);
+        do Screen.setColor(true);
+        return;
+    }
     method void new_location() {
+        do erase()
         return;
     }
 
@@ -43,35 +59,31 @@ class Bludger {
         if ((down) & (y < 220)) {
             do move_down();
         }
-        if (y=220){
+        if (y>220){
             let down = false;
         }
         if (~(down) & (y > 35)){
             do move_up();
         }
-        if (y=35) {
+        if ((y<35)|(y=35)) {
             let down = true;
         }
         return;
     }
 
     method void move_up() {
-        do Screen.setColor(false);
+        do erase();
+        let y = y-3;
         do draw();
-        do Screen.setColor(true);
-        let y = y-1;
-        do draw();
-        do Sys.wait(10);
+        do Sys.wait(5);
         return;
     }
 
     method void move_down() {
-        do Screen.setColor(false);
+        do erase();
+        let y = y+3;
         do draw();
-        do Screen.setColor(true);
-        let y = y+1;
-        do draw();
-        do Sys.wait(10);
+        do Sys.wait(5);
         return;
     }
 
