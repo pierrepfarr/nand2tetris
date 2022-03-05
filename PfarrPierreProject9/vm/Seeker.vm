@@ -1,0 +1,576 @@
+function Seeker.new 0
+push constant 2
+call Memory.alloc 1
+pop pointer 0
+push argument 0
+pop this 0
+push argument 1
+pop this 1
+push pointer 0
+call Seeker.draw 1
+pop temp 0
+push pointer 0
+return
+function Seeker.get_x_loc 0
+push argument 0
+pop pointer 0
+push this 0
+return
+function Seeker.get_y_loc 0
+push argument 0
+pop pointer 0
+push this 1
+return
+function Seeker.draw 0
+push argument 0
+pop pointer 0
+push pointer 0
+call Seeker.draw_top 1
+pop temp 0
+push pointer 0
+call Seeker.draw_bottom 1
+pop temp 0
+push pointer 0
+call Seeker.draw_stick 1
+pop temp 0
+push constant 0
+return
+function Seeker.erase 0
+push argument 0
+pop pointer 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push this 0
+push this 1
+push this 0
+push constant 40
+add
+push this 1
+push constant 15
+add
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push constant 0
+return
+function Seeker.draw_stick 1
+push argument 0
+pop pointer 0
+push constant 6
+pop local 0
+label WHILE_EXP0
+push local 0
+push constant 9
+lt
+not
+if-goto WHILE_END0
+push this 0
+push constant 5
+add
+push this 1
+push local 0
+add
+push this 0
+push constant 40
+add
+push this 1
+push local 0
+add
+call Screen.drawLine 4
+pop temp 0
+push local 0
+push constant 1
+add
+pop local 0
+goto WHILE_EXP0
+label WHILE_END0
+push constant 0
+return
+function Seeker.draw_top 1
+push argument 0
+pop pointer 0
+push constant 3
+pop local 0
+label WHILE_EXP0
+push local 0
+push constant 6
+lt
+not
+if-goto WHILE_END0
+push this 0
+push this 1
+push local 0
+add
+push this 0
+push constant 10
+add
+push this 1
+push local 0
+add
+call Screen.drawLine 4
+pop temp 0
+push local 0
+push constant 1
+add
+pop local 0
+goto WHILE_EXP0
+label WHILE_END0
+push constant 0
+return
+function Seeker.draw_bottom 1
+push argument 0
+pop pointer 0
+push constant 9
+pop local 0
+label WHILE_EXP0
+push local 0
+push constant 12
+lt
+not
+if-goto WHILE_END0
+push this 0
+push this 1
+push local 0
+add
+push this 0
+push constant 10
+add
+push this 1
+push local 0
+add
+call Screen.drawLine 4
+pop temp 0
+push local 0
+push constant 1
+add
+pop local 0
+goto WHILE_EXP0
+label WHILE_END0
+push constant 0
+return
+function Seeker.check_collision 5
+push argument 0
+pop pointer 0
+push argument 1
+call Bludger.get_x_loc 1
+pop local 0
+push argument 1
+call Bludger.get_y_loc 1
+pop local 1
+push constant 10
+pop local 2
+push constant 0
+pop local 3
+push constant 0
+pop local 4
+push local 0
+push local 2
+sub
+push this 0
+gt
+push local 0
+push local 2
+sub
+push this 0
+eq
+or
+push local 0
+push local 2
+sub
+push this 0
+push constant 40
+add
+lt
+push local 0
+push local 2
+sub
+push this 0
+push constant 40
+add
+eq
+or
+and
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+not
+pop local 3
+label IF_FALSE0
+push local 0
+push local 2
+add
+push this 0
+gt
+push local 0
+push local 2
+add
+push this 0
+eq
+or
+push local 0
+push local 2
+add
+push this 0
+push constant 40
+add
+lt
+push local 0
+push local 2
+add
+push this 0
+push constant 40
+add
+eq
+or
+and
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 0
+not
+pop local 3
+label IF_FALSE1
+push local 1
+push local 2
+sub
+push this 1
+gt
+push local 1
+push local 2
+sub
+push this 1
+eq
+or
+push local 1
+push local 2
+sub
+push this 1
+push constant 15
+add
+lt
+push local 1
+push local 2
+sub
+push this 1
+push constant 15
+add
+eq
+or
+and
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push constant 0
+not
+pop local 4
+label IF_FALSE2
+push local 1
+push local 2
+add
+push this 1
+gt
+push local 1
+push local 2
+add
+push this 1
+eq
+or
+push local 1
+push local 2
+add
+push this 1
+push constant 15
+add
+lt
+push local 1
+push local 2
+add
+push this 1
+push constant 15
+add
+eq
+or
+and
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+push constant 0
+not
+pop local 4
+label IF_FALSE3
+push local 3
+push local 4
+and
+if-goto IF_TRUE4
+goto IF_FALSE4
+label IF_TRUE4
+push constant 0
+not
+return
+goto IF_END4
+label IF_FALSE4
+push constant 0
+return
+label IF_END4
+function Seeker.check_catch 5
+push argument 0
+pop pointer 0
+push argument 1
+call Snitch.get_x_loc 1
+pop local 0
+push argument 1
+call Snitch.get_y_loc 1
+pop local 1
+push constant 4
+pop local 2
+push constant 0
+pop local 3
+push constant 0
+pop local 4
+push local 0
+push constant 9
+sub
+push this 0
+gt
+push local 0
+push constant 9
+sub
+push this 0
+eq
+or
+push local 0
+push constant 9
+sub
+push this 0
+push constant 40
+add
+lt
+push local 0
+push constant 9
+sub
+push this 0
+push constant 40
+add
+eq
+or
+and
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+not
+pop local 3
+label IF_FALSE0
+push local 0
+push constant 9
+add
+push this 0
+gt
+push local 0
+push constant 9
+add
+push this 0
+eq
+or
+push local 0
+push constant 9
+add
+push this 0
+push constant 40
+add
+lt
+push local 0
+push constant 9
+add
+push this 0
+push constant 40
+add
+eq
+or
+and
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 0
+not
+pop local 3
+label IF_FALSE1
+push local 1
+push local 2
+sub
+push this 1
+gt
+push local 1
+push local 2
+sub
+push this 1
+eq
+or
+push local 1
+push local 2
+sub
+push this 1
+push constant 15
+add
+lt
+push local 1
+push local 2
+sub
+push this 1
+push constant 15
+add
+eq
+or
+and
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push constant 0
+not
+pop local 4
+label IF_FALSE2
+push local 1
+push local 2
+add
+push this 1
+gt
+push local 1
+push local 2
+add
+push this 1
+eq
+or
+push local 1
+push local 2
+add
+push this 1
+push constant 15
+add
+lt
+push local 1
+push local 2
+add
+push this 1
+push constant 15
+add
+eq
+or
+and
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+push constant 0
+not
+pop local 4
+label IF_FALSE3
+push local 3
+push local 4
+and
+if-goto IF_TRUE4
+goto IF_FALSE4
+label IF_TRUE4
+push constant 0
+not
+return
+goto IF_END4
+label IF_FALSE4
+push constant 0
+return
+label IF_END4
+function Seeker.moveUp 0
+push argument 0
+pop pointer 0
+push this 1
+push constant 25
+gt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push pointer 0
+call Seeker.erase 1
+pop temp 0
+push this 1
+push constant 5
+sub
+pop this 1
+push pointer 0
+call Seeker.draw 1
+pop temp 0
+label IF_FALSE0
+push constant 0
+return
+function Seeker.moveDown 0
+push argument 0
+pop pointer 0
+push this 1
+push constant 15
+add
+push constant 230
+lt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push pointer 0
+call Seeker.erase 1
+pop temp 0
+push this 1
+push constant 5
+add
+pop this 1
+push pointer 0
+call Seeker.draw 1
+pop temp 0
+label IF_FALSE0
+push constant 0
+return
+function Seeker.moveLeft 0
+push argument 0
+pop pointer 0
+push this 0
+push constant 20
+gt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push pointer 0
+call Seeker.erase 1
+pop temp 0
+push this 0
+push constant 5
+sub
+pop this 0
+push pointer 0
+call Seeker.draw 1
+pop temp 0
+label IF_FALSE0
+push constant 0
+return
+function Seeker.moveRight 0
+push argument 0
+pop pointer 0
+push this 0
+push constant 40
+add
+push constant 490
+lt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push pointer 0
+call Seeker.erase 1
+pop temp 0
+push this 0
+push constant 5
+add
+pop this 0
+push pointer 0
+call Seeker.draw 1
+pop temp 0
+label IF_FALSE0
+push constant 0
+return

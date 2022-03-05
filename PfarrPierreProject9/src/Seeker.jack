@@ -20,40 +20,130 @@ class Seeker {
     }
 
     method void draw() {
-        do Screen.drawRectangle(x,y,x+40,y+15);
-        do Screen.setColor(false);
-        do Screen.drawRectangle(x+1,y+1,x+39,y+14);
-        do Screen.setColor(true);
+        // draw the current seeker
+        do draw_top();
+        do draw_bottom();
+        do draw_stick();
         return;
     }
 
     method void erase() {
+        // erase the current seeker
         do Screen.setColor(false);
         do Screen.drawRectangle(x,y,x+40,y+15);
         do Screen.setColor(true);
         return;     
     }
 
-    method void draw_left_wing() {
+    method void draw_stick() {
+        var int i;
+        let i=6;
+        while(i<9){
+            do Screen.drawLine(x+5,y+i,x+40,y+i);
+            let i = i+1;
+        }
+        return;
+    }
+
+    method void draw_top() {
+        var int i;
+        let i=3;
+        while(i<6){
+            do Screen.drawLine(x,y+i,x+10,y+i);
+            let i = i+1;
+        }
+        return;
+    }
+
+    method void draw_bottom() {
+        var int i;
+        let i=9;
+        while(i<12){
+            do Screen.drawLine(x,y+i,x+10,y+i);
+            let i = i+1;
+        }
         return;
     }
     
-    method void draw_right_wing(){
-        return;
-    }
 
     method boolean check_collision(Bludger bludger){
-        var x_loc;
-        var y_loc;
-        var radius;
-        return;
+        // This method checks for a collision between
+        // The seeker and given Bludger
+
+        var int x_loc; // x value of center Bludger
+        var int y_loc; // y value of center Bludger
+        var int r; // radius+1 for hit box
+        var boolean intersect_x; // Seeker and Bludger area overlap x value
+        var boolean intersect_y; // Seeker and Bludger area overlap y value
+    
+        let x_loc = bludger.get_x_loc();
+        let y_loc = bludger.get_y_loc();
+        let r = 10;
+        let intersect_x = false;
+        let intersect_y = false;
+
+        if ((((x_loc-r)>x)|((x_loc-r)=x)) & (((x_loc-r)<(x+40))|((x_loc-r)=(x+40)))){
+            let intersect_x = true;
+        }
+
+        if ((((x_loc+r)>x)|((x_loc+r)=x)) & (((x_loc+r)<(x+40))|((x_loc+r)=(x+40)))){
+            let intersect_x = true;
+        }
+
+        if ((((y_loc-r)>y)|((y_loc-r)=y)) & (((y_loc-r)<(y+15))|((y_loc-r)=(y+15)))){
+            let intersect_y = true;
+        }
+
+        if ((((y_loc+r)>y)|((y_loc+r)=y)) & (((y_loc+r)<(y+15))|((y_loc+r)=(y+15)))){
+            let intersect_y = true;
+        }
+
+        if((intersect_x)&(intersect_y)){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     method boolean check_catch(Snitch snitch){
-        var x_loc;
-        var y_loc;
-        var radius;
-        return;
+        // This method checks for a catch between
+        // The seeker and the snitch
+
+        var int x_loc; // x value of center Bludger
+        var int y_loc; // y value of center Bludger
+        var int r; // radius+1 for hit box
+        var boolean intersect_x; // Seeker and Bludger area overlap x value
+        var boolean intersect_y; // Seeker and Bludger area overlap y value
+    
+        let x_loc = snitch.get_x_loc();
+        let y_loc = snitch.get_y_loc();
+        let r = 4;
+        let intersect_x = false;
+        let intersect_y = false;
+
+        if ((((x_loc-9)>x)|((x_loc-9)=x)) & (((x_loc-9)<(x+40))|((x_loc-9)=(x+40)))){
+            let intersect_x = true;
+        }
+
+        if ((((x_loc+9)>x)|((x_loc+9)=x)) & (((x_loc+9)<(x+40))|((x_loc+9)=(x+40)))){
+            let intersect_x = true;
+        }
+
+        if ((((y_loc-r)>y)|((y_loc-r)=y)) & (((y_loc-r)<(y+15))|((y_loc-r)=(y+15)))){
+            let intersect_y = true;
+        }
+
+        if ((((y_loc+r)>y)|((y_loc+r)=y)) & (((y_loc+r)<(y+15))|((y_loc+r)=(y+15)))){
+            let intersect_y = true;
+        }
+
+        if((intersect_x)&(intersect_y)){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     method void moveUp() {

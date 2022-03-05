@@ -34,9 +34,6 @@ class Bludger {
     }
 
     method void draw() {
-        do Screen.drawRectangle(x-r-1,y-r-1,x+r+1,y+r+1);
-        do Screen.setColor(false);
-        do Screen.drawRectangle(x-r,y-r,x+r,y+r);
         do Screen.setColor(true);
         do Screen.drawCircle(x,y,r);
         return;
@@ -49,8 +46,12 @@ class Bludger {
         do Screen.setColor(true);
         return;
     }
+    
     method void new_location() {
-        do erase()
+        var int new_x;
+        do erase();
+        let new_x = LCGRandom.randRange(75,470);
+        let x = new_x;
         return;
     }
 

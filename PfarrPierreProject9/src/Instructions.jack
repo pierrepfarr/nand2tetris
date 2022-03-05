@@ -11,6 +11,10 @@ class Instructions {
         do Output.printString("Avoid the Bludgers");
         do Sys.wait(1500);
         do Screen.clearScreen();
+        do Output.moveCursor(7,22);
+        do Output.printString("Press a Key to Start!");
+        do Sys.wait(1500);
+        do Screen.clearScreen();
 
         return;
     }
@@ -26,4 +30,61 @@ class Instructions {
         do Screen.setColor(true);
         return;
     }
+
+    function void avoid_warning() {
+        /* testing printing */
+        do Screen.clearScreen();
+        do Output.moveCursor(7,22);
+        do Output.printString("You Hit The Bludgers!");
+        do Output.moveCursor(9,22);
+        do Output.printString("Your Score Decreases 1");
+        do Output.moveCursor(11,23);
+        do Output.printString("Avoid the Bludgers");
+        do Sys.wait(1500);
+        do Screen.clearScreen();
+
+        return;
+    }
+
+    function void catch() {
+        /* testing printing */
+        do Screen.clearScreen();
+        do Output.moveCursor(7,22);
+        do Output.printString("Good Job You Caught It!");
+        do Output.moveCursor(9,23);
+        do Output.printString("Your Score Increases 1");
+        do Output.moveCursor(11,23);
+        do Output.printString("Catch the New Snitch");
+        do Sys.wait(1500);
+        do Screen.clearScreen();
+
+        return;
+    }
+
+    function void game_won() {
+        /* testing printing */
+        do Screen.clearScreen();
+        do Output.moveCursor(7,20);
+        do Output.printString("Good Job You Won The Cup!");
+        do Output.moveCursor(9,22);
+        do Output.printString("Harry Would be Proud!");
+        do Output.moveCursor(11,23);
+        do Output.printString("See You Next Time.");
+        do Sys.wait(1500);
+        do Screen.clearScreen();
+
+        return;
+    }
+
+    function void quit() {
+        /* testing printing */
+        do Screen.clearScreen();
+        do Output.moveCursor(7,22);
+        do Output.printString("Sorry To See You Go!");
+        do Sys.wait(1500);
+        do Screen.clearScreen();
+
+        return;
+    }
+
 }

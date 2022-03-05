@@ -22,28 +22,57 @@ class Snitch {
     }
 
     method void draw() {
-        do Screen.drawRectangle(x-r-1,y-r-1,x+r+1,y+r+1);
+        do Screen.setColor(true);
+        do Screen.drawCircle(x,y,r);
+        do draw_left_wing();
+        do draw_right_wing();
+        return;
+    }
+
+    
+    method void erase() {
         do Screen.setColor(false);
-        do Screen.drawRectangle(x-r,y-r,x+r,y+r);
+        do Screen.drawRectangle(x-r-5,y-r-5,x+r+5,y+r+5);
+        do Screen.setColor(true);
+        return;
+    }
+
+    method void draw_cirle() {
         do Screen.setColor(true);
         do Screen.drawCircle(x,y,r);
         return;
     }
 
-    method void draw_cirle() {
-        do Screen.drawCircle(x,y,r);
-        return;
-    }
-
     method void draw_left_wing() {
+        var int i;
+        let i=0;
+        while(i<6){
+            do Screen.drawLine(x,y,x-r-5,y-r-i);
+            let i = i+1;
+        }
         return;
     }
     
-    method void draw_right_wing(){
+    method void draw_right_wing() {
+        var int i;
+        let i=0;
+        while(i<6){
+            do Screen.drawLine(x,y,x+r+5,y-r-i);
+            let i = i+1;
+        }
         return;
     }
 
     method void new_location() {
+        var int new_x;
+        var int new_y;
+        do erase();
+        
+        let new_x = LCGRandom.randRange(75,480);
+        let new_y = LCGRandom.randRange(75,220);
+        let x = new_x;
+        let y = new_y;
+
         return;
     }
 

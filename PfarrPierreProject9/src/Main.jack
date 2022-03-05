@@ -3,26 +3,53 @@ class Main {
     function void main() {
         var int score;
         var Game game;
+        var String status;
+        var int cycles;
 
         let score = 0;
         do Instructions.welcome();
+        while (Keyboard.keyPressed() = 0) {let cycles = cycles + 1;}
+        do LCGRandom.setSeed(Math.abs(cycles));
         let game = Game.new(score);
         
         
-        // while(score < 10){
-        //  do game.run();   
-        //  if (status == "hit"){
-        //     score = score + 1
-        //     game = game.new(score)
-        //     move = Bludger
-        //     move = bludger1
-        //     move = snitch 
-        //  }   
-        //  else
+        while(score < 10){
+            let status = game.run();   
+            
+            // status of 0 is a collision
+            if (status = 0){
+                if(score>0){
+                    let score = score - 1;}
+            do Sys.wait(10);
+            do Instructions.avoid_warning();
+            let game = Game.new(score);
+            do game.erase_bludgers();
+            do game.move_snitch();
+            do game.move_bludgers();
+            
+            } 
+            
+            // status of 1 is a catch
+            if (status = 1){
+                if(score<10){
+                    let score = score + 1;}
+            do Sys.wait(10);
+            do Instructions.catch();
+            let game = Game.new(score);
+            do game.erase_bludgers();
+            do game.move_snitch();
+            do game.move_bludgers();
+            }
+           
+            // status of 3 quit
+            if (status = 3){
+            do Sys.wait(10);
+            do Instructions.quit();
+            do Sys.halt();
+            }        
         
-        // }
-        
-        do game.run();
+        }
+        do Instructions.game_won();
         return;
     }
 }

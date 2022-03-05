@@ -19,7 +19,51 @@ class Game {
     }
 
 
-    method void run() {
+    method void move_snitch (){
+        do snitch.erase();
+        do snitch.new_location();
+        do snitch.draw();
+        return;
+    }
+
+    method void erase_bludgers(){
+        do bludger1.erase();
+        do bludger2.erase();
+        return;
+    }
+
+    method void move_bludgers(){
+        var int snitch_x_loc;
+        var int bludger1_x_loc;
+        var int bludger2_x_loc;
+
+        let snitch_x_loc = snitch.get_x_loc();
+        
+        do bludger1.new_location();
+        let bludger1_x_loc = bludger1.get_x_loc();
+        
+        while ( ( ((snitch_x_loc)>(bludger1_x_loc-15))|((snitch_x_loc)=(bludger1_x_loc-15)) ) & ( ((snitch_x_loc)<(bludger1_x_loc+15))|((snitch_x_loc)=(bludger1_x_loc+15)) ) ){
+            do bludger1.new_location();
+            let bludger1_x_loc = bludger1.get_x_loc();
+        }
+
+        do bludger1.draw();
+
+        do bludger2.new_location();
+        let bludger2_x_loc = bludger2.get_x_loc();
+
+        while ( ( ((snitch_x_loc)>(bludger2_x_loc-15))|((snitch_x_loc)=(bludger2_x_loc-15)) ) & ( ((snitch_x_loc)<(bludger2_x_loc+15))|((snitch_x_loc)=(bludger2_x_loc+15)) ) ){
+            do bludger2.new_location();
+            let bludger2_x_loc = bludger2.get_x_loc();
+        }
+        
+        do bludger2.draw();
+        do snitch.draw();
+
+        return;
+    }
+
+    method int run() {
         var char key;
         var boolean running;
         let running = true;
@@ -30,16 +74,24 @@ class Game {
             do Sys.wait(1);
             do bludger2.move();
             let key = Keyboard.keyPressed();
+            if (key = 81) { return 3; }   // quit the game if q
             if (key = 131) { do seeker.moveUp(); }   // up arrow
             if (key = 133) { do seeker.moveDown(); }   // down arrow
             if (key = 130) { do seeker.moveLeft(); }   // left arrow
             if (key = 132) { do seeker.moveRight(); }   // right arrow
             do Sys.wait(1);
+            if(seeker.check_collision(bludger1)){
+                return 0;
+            }
+            if(seeker.check_collision(bludger2)){
+                return 0;
+            }
+            if(seeker.check_catch(snitch)){
+                return 1;
+            }
             
-
-
         }
-        return;
+        return 3;
     }
     
 }

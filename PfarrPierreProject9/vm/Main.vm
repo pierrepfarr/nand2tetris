@@ -1,0 +1,123 @@
+function Main.main 4
+push constant 0
+pop local 0
+call Instructions.welcome 0
+pop temp 0
+label WHILE_EXP0
+call Keyboard.keyPressed 0
+push constant 0
+eq
+not
+if-goto WHILE_END0
+push local 3
+push constant 1
+add
+pop local 3
+goto WHILE_EXP0
+label WHILE_END0
+push local 3
+call Math.abs 1
+call LCGRandom.setSeed 1
+pop temp 0
+push local 0
+call Game.new 1
+pop local 1
+label WHILE_EXP1
+push local 0
+push constant 10
+lt
+not
+if-goto WHILE_END1
+push local 1
+call Game.run 1
+pop local 2
+push local 2
+push constant 0
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push local 0
+push constant 0
+gt
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push local 0
+push constant 1
+sub
+pop local 0
+label IF_FALSE1
+push constant 10
+call Sys.wait 1
+pop temp 0
+call Instructions.avoid_warning 0
+pop temp 0
+push local 0
+call Game.new 1
+pop local 1
+push local 1
+call Game.erase_bludgers 1
+pop temp 0
+push local 1
+call Game.move_snitch 1
+pop temp 0
+push local 1
+call Game.move_bludgers 1
+pop temp 0
+label IF_FALSE0
+push local 2
+push constant 1
+eq
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push local 0
+push constant 10
+lt
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+push local 0
+push constant 1
+add
+pop local 0
+label IF_FALSE3
+push constant 10
+call Sys.wait 1
+pop temp 0
+call Instructions.catch 0
+pop temp 0
+push local 0
+call Game.new 1
+pop local 1
+push local 1
+call Game.erase_bludgers 1
+pop temp 0
+push local 1
+call Game.move_snitch 1
+pop temp 0
+push local 1
+call Game.move_bludgers 1
+pop temp 0
+label IF_FALSE2
+push local 2
+push constant 3
+eq
+if-goto IF_TRUE4
+goto IF_FALSE4
+label IF_TRUE4
+push constant 10
+call Sys.wait 1
+pop temp 0
+call Instructions.quit 0
+pop temp 0
+call Sys.halt 0
+pop temp 0
+label IF_FALSE4
+goto WHILE_EXP1
+label WHILE_END1
+call Instructions.game_won 0
+pop temp 0
+push constant 0
+return

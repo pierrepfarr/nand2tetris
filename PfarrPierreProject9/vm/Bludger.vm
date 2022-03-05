@@ -36,45 +36,6 @@ return
 function Bludger.draw 0
 push argument 0
 pop pointer 0
-push this 0
-push this 2
-sub
-push constant 1
-sub
-push this 1
-push this 2
-sub
-push constant 1
-sub
-push this 0
-push this 2
-add
-push constant 1
-add
-push this 1
-push this 2
-add
-push constant 1
-add
-call Screen.drawRectangle 4
-pop temp 0
-push constant 0
-call Screen.setColor 1
-pop temp 0
-push this 0
-push this 2
-sub
-push this 1
-push this 2
-sub
-push this 0
-push this 2
-add
-push this 1
-push this 2
-add
-call Screen.drawRectangle 4
-pop temp 0
 push constant 0
 not
 call Screen.setColor 1
@@ -120,9 +81,18 @@ call Screen.setColor 1
 pop temp 0
 push constant 0
 return
-function Bludger.new_location 0
+function Bludger.new_location 1
 push argument 0
 pop pointer 0
+push pointer 0
+call Bludger.erase 1
+pop temp 0
+push constant 75
+push constant 470
+call LCGRandom.randRange 2
+pop local 0
+push local 0
+pop this 0
 push constant 0
 return
 function Bludger.move 0
