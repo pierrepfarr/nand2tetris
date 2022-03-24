@@ -39,7 +39,6 @@ class Parser:
 
         with open(output_path,"w") as f:
             for instruction in instructions:
-                print(instruction)
                 f.write(instruction)
 
 

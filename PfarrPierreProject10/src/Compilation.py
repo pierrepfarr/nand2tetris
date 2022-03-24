@@ -18,13 +18,9 @@ class Compilation:
         if self.idx <= self.end:
             self.output.append(self.generate_tag("class")+"\n")
             
-            self.output.append(self.generate_current_tag())
-            self.advance()
-            self.output.append(self.generate_current_tag())
-            self.advance()
-            self.output.append(self.generate_current_tag())
-            self.advance()
-
+            self.next()
+            self.next()
+            self.next()
 
         while self.idx < self.end: # while not at the end of the token list
             if self.current in self.classVarDec: #if field of static
@@ -32,8 +28,7 @@ class Compilation:
             elif self.current in self.subroutineDec: #if constructor function or method
                 self.compile_subroutine()
         
-        self.output.append(self.generate_current_tag())
-        self.advance()
+        self.next()
         
         self.output.append(self.generate_tag("/class")+"\n")
             
@@ -42,40 +37,31 @@ class Compilation:
     def compile_classVarDec(self):
         self.output.append(self.generate_tag("classVarDec")+"\n")
         
-        self.output.append(self.generate_current_tag()) #static/field
-        self.advance()
-        self.output.append(self.generate_current_tag()) #type
-        self.advance()
-        self.output.append(self.generate_current_tag()) #identifier
-        self.advance()
+        self.next() #static/field    
+        self.next() #type
+        self.next() #identifier
 
         while self.current == ",": # if other identifiers then output , and id
-            self.output.append(self.generate_current_tag()) 
-            self.advance()
-            self.output.append(self.generate_current_tag()) 
-            self.advance()
+            self.next()
+            self.next()
+
         
-        self.output.append(self.generate_current_tag()) #;
-        self.advance()
+        self.next() #;
 
         self.output.append(self.generate_tag("/classVarDec")+"\n")
 
     def compile_subroutine(self):
         self.output.append(self.generate_tag("subroutineDec")+"\n")
         
-        self.output.append(self.generate_current_tag()) #function
-        self.advance() 
-        self.output.append(self.generate_current_tag()) #void
-        self.advance()
-        self.output.append(self.generate_current_tag()) #identifier
-        self.advance()
-        self.output.append(self.generate_current_tag()) #{
-        self.advance()
+        self.next() #function
+        self.next() #void
+        self.next() #identifier
+        self.next() #{
+
 
         self.compile_parameters() #parameters empty or many
 
-        self.output.append(self.generate_current_tag()) #;
-        self.advance() 
+        self.next() #;
         
         self.compile_subroutineBody()
 
@@ -87,15 +73,12 @@ class Compilation:
         self.output.append(self.generate_tag("parameterList")+"\n")
 
         while self.current_type == "keyword" or self.current_type == "identifier":
-            self.output.append(self.generate_current_tag()) 
-            self.advance()
-        
-            self.output.append(self.generate_current_tag()) 
-            self.advance()
-
+            self.next()
+            self.next()
+            
             if self.current == ",":
-                self.output.append(self.generate_current_tag()) 
-                self.advance()
+                self.next()
+                
         
         self.output.append(self.generate_tag("/parameterList")+"\n")
             
@@ -103,17 +86,15 @@ class Compilation:
     
     def compile_subroutineBody(self):
         self.output.append(self.generate_tag("subroutineBody")+"\n")
+        self.next()
         
-        self.output.append(self.generate_current_tag()) 
-        self.advance()
 
         while self.current == "var":
             self.compile_varDec()
         
         self.compile_statements() # compile all keywords matching statements
-
-        self.output.append(self.generate_current_tag()) 
-        self.advance()
+        self.next()
+        
 
         self.output.append(self.generate_tag("/subroutineBody")+"\n")
 
@@ -122,22 +103,16 @@ class Compilation:
     def compile_varDec(self):
         self.output.append(self.generate_tag("varDec")+"\n")
         
-        self.output.append(self.generate_current_tag())  #similar to classvardec
-        self.advance()
-        self.output.append(self.generate_current_tag()) 
-        self.advance()
-        self.output.append(self.generate_current_tag()) 
-        self.advance()
+        self.next() #similar to classvardec
+        self.next()
+        self.next()
+        
 
         while self.current == ",":
-            self.output.append(self.generate_current_tag()) 
-            self.advance()
-            self.output.append(self.generate_current_tag()) 
-            self.advance()
-        
-        self.output.append(self.generate_current_tag()) 
-        self.advance()
-
+            self.next()
+            self.next()
+            
+        self.next()
         self.output.append(self.generate_tag("/varDec")+"\n")
 
     def compile_statements(self):
@@ -158,60 +133,51 @@ class Compilation:
     def compile_let(self):
         self.output.append(self.generate_tag("letStatement")+"\n")
 
-        self.output.append(self.generate_current_tag()) 
-        self.advance()
-        self.output.append(self.generate_current_tag()) 
-        self.advance()
+        self.next()
+        self.next()
+        
 
         if self.current == "[":
-            self.output.append(self.generate_current_tag()) #identifier/index
-            self.advance()
+            self.next()#identifier/index
             self.compile_expression()
-            self.output.append(self.generate_current_tag()) #close the bracket
-            self.advance()
+            self.next()#close the bracket
+            
 
-        self.output.append(self.generate_current_tag()) 
-        self.advance()
+        self.next()
         
         self.compile_expression()
 
-        self.output.append(self.generate_current_tag()) 
-        self.advance()
+        self.next()
+        
 
         self.output.append(self.generate_tag("/letStatement")+"\n")
     
 
-
     def compile_if(self):
-        self.output.append(self.generate_tag("ifStatement")+"\n")
+        self.output.append(self.generate_tag("ifStatement")+"\n")    
+        self.next()
+        self.next()
         
-        self.output.append(self.generate_current_tag()) 
-        self.advance()
-        self.output.append(self.generate_current_tag()) 
-        self.advance()
 
         self.compile_expression()
         
-        self.output.append(self.generate_current_tag()) 
-        self.advance()
-        self.output.append(self.generate_current_tag()) 
-        self.advance()
+        self.next()
+        self.next()
+        
 
         self.compile_statements()
 
-        self.output.append(self.generate_current_tag()) 
-        self.advance()
+        self.next()
+        
         
         if self.current == "else":
-            self.output.append(self.generate_current_tag()) 
-            self.advance()
-            self.output.append(self.generate_current_tag()) 
-            self.advance()
-
+            self.next()
+            self.next()
+            
             self.compile_statements()
             
-            self.output.append(self.generate_current_tag()) 
-            self.advance()
+            self.next()
+            
         
         self.output.append(self.generate_tag("/ifStatement")+"\n")
 
@@ -219,61 +185,53 @@ class Compilation:
     def compile_while(self):
         self.output.append(self.generate_tag("whileStatement")+"\n")
         
-        self.output.append(self.generate_current_tag()) 
-        self.advance()
-        self.output.append(self.generate_current_tag()) 
-        self.advance()
-
+        self.next()
+        self.next()
+        
         self.compile_expression()
 
-        self.output.append(self.generate_current_tag()) 
-        self.advance()
-        self.output.append(self.generate_current_tag()) 
-        self.advance()
+        self.next()
+        self.next()
+        
 
         self.compile_statements()
-
-        self.output.append(self.generate_current_tag()) 
-        self.advance()
+        self.next()
+        
     
         self.output.append(self.generate_tag("/whileStatement")+"\n")
 
     def compile_do(self):
         self.output.append(self.generate_tag("doStatement")+"\n")
 
-        self.output.append(self.generate_current_tag()) 
-        self.advance()
-        self.output.append(self.generate_current_tag()) 
-        self.advance()
+        self.next()
+        self.next()
+        
 
         if self.current == ".": #method call
-            self.output.append(self.generate_current_tag()) 
-            self.advance()
-            self.output.append(self.generate_current_tag()) 
-            self.advance()
+            self.next()
+            self.next()
+            
     
-        self.output.append(self.generate_current_tag()) 
-        self.advance()
-
+        self.next()
+    
         self.compile_expressions()
 
-        self.output.append(self.generate_current_tag()) 
-        self.advance()
-        self.output.append(self.generate_current_tag()) 
-        self.advance()
+        self.next()
+        self.next()
+        
 
         self.output.append(self.generate_tag("/doStatement")+"\n")
 
     def compile_return(self):
         self.output.append(self.generate_tag("returnStatement")+"\n")
-        self.output.append(self.generate_current_tag()) 
-        self.advance()
+        self.next()
+        
 
         if self.current != ";":
             self.compile_expression()
         
-        self.output.append(self.generate_current_tag()) 
-        self.advance()
+        self.next()
+        
         self.output.append(self.generate_tag("/returnStatement")+"\n")
 
     def compile_expression(self):
@@ -281,11 +239,9 @@ class Compilation:
         self.compile_term()
 
         if self.current in self.operators:
-            self.output.append(self.generate_current_tag()) 
-            self.advance()
+            self.next()
             self.compile_term()
         self.output.append(self.generate_tag("/expression")+"\n")
-
 
 
     def compile_expressions(self):
@@ -294,8 +250,7 @@ class Compilation:
         if self.current == "(" or self.current != ")":
             self.compile_expression()
             while self.current == ",":
-                self.output.append(self.generate_current_tag()) 
-                self.advance()
+                self.next()
                 self.compile_expression()
         
         self.output.append(self.generate_tag("/expressionList")+"\n")
@@ -305,51 +260,42 @@ class Compilation:
         self.output.append(self.generate_tag("term")+"\n")
         
         if self.current_type == "identifier":
-            self.output.append(self.generate_current_tag()) 
-            self.advance()
+            self.next()
 
             if self.current == "(":
-                self.output.append(self.generate_current_tag()) 
-                self.advance()
+                self.next()
                 self.compile_expressions()
-                self.output.append(self.generate_current_tag()) 
-                self.advance()   
+                self.next()
+                   
             elif self.current == ".":
-                self.output.append(self.generate_current_tag()) 
-                self.advance()
-                self.output.append(self.generate_current_tag()) 
-                self.advance()
-                self.output.append(self.generate_current_tag()) 
-                self.advance()
+                self.next()
+                self.next()
+                self.next()
+                
                 self.compile_expressions()
-                self.output.append(self.generate_current_tag()) 
-                self.advance()
+                self.next()
+                
             elif self.current == "[":
-                self.output.append(self.generate_current_tag()) 
-                self.advance()
+                self.next()
                 self.compile_expression()
-                self.output.append(self.generate_current_tag()) 
-                self.advance()
-
+                self.next()
+                
         elif self.current in self.unary:
-            self.output.append(self.generate_current_tag()) 
-            self.advance()
+            self.next()
             self.compile_term()
+        
         elif self.current == "(":
-            self.output.append(self.generate_current_tag()) 
-            self.advance()
+            self.next()
             self.compile_expression()
-            self.output.append(self.generate_current_tag()) 
-            self.advance()
+            self.next()
+            
         else:
-            self.output.append(self.generate_current_tag()) 
-            self.advance()
-
+            self.next()
+            
         self.output.append(self.generate_tag("/term")+"\n")
 
     def generate_tag(self,tag):
         return f"<{tag}>"
-    
     
     def generate_current_tag(self):
         tag = [] 
@@ -361,7 +307,6 @@ class Compilation:
         tag.append("\n")
         return ''.join(tag)
 
-    
     def advance(self):
         if self.idx < self.end:
             self.idx += 1
@@ -369,3 +314,8 @@ class Compilation:
             self.current_type = self.tokens[self.idx][1]
         else:
             self.idx += 1
+
+    def next(self):
+        self.output.append(self.generate_current_tag())
+        self.advance()
+        
