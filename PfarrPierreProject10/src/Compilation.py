@@ -29,7 +29,6 @@ class Compilation:
                 self.compile_subroutine()
         
         self.next()
-        
         self.output.append(self.generate_tag("/class")+"\n")
             
 
@@ -45,9 +44,7 @@ class Compilation:
             self.next()
             self.next()
 
-        
         self.next() #;
-
         self.output.append(self.generate_tag("/classVarDec")+"\n")
 
     def compile_subroutine(self):
@@ -58,11 +55,8 @@ class Compilation:
         self.next() #identifier
         self.next() #{
 
-
         self.compile_parameters() #parameters empty or many
-
         self.next() #;
-        
         self.compile_subroutineBody()
 
         self.output.append(self.generate_tag("/subroutineDec")+"\n")
@@ -82,32 +76,26 @@ class Compilation:
         
         self.output.append(self.generate_tag("/parameterList")+"\n")
             
-
-    
     def compile_subroutineBody(self):
         self.output.append(self.generate_tag("subroutineBody")+"\n")
         self.next()
         
-
         while self.current == "var":
             self.compile_varDec()
         
         self.compile_statements() # compile all keywords matching statements
         self.next()
-        
-
+    
         self.output.append(self.generate_tag("/subroutineBody")+"\n")
 
 
 
     def compile_varDec(self):
         self.output.append(self.generate_tag("varDec")+"\n")
-        
         self.next() #similar to classvardec
         self.next()
         self.next()
         
-
         while self.current == ",":
             self.next()
             self.next()
@@ -142,31 +130,22 @@ class Compilation:
             self.compile_expression()
             self.next()#close the bracket
             
-
         self.next()
-        
         self.compile_expression()
-
         self.next()
         
-
         self.output.append(self.generate_tag("/letStatement")+"\n")
     
-
     def compile_if(self):
         self.output.append(self.generate_tag("ifStatement")+"\n")    
         self.next()
         self.next()
         
-
         self.compile_expression()
-        
         self.next()
         self.next()
         
-
         self.compile_statements()
-
         self.next()
         
         
@@ -175,10 +154,8 @@ class Compilation:
             self.next()
             
             self.compile_statements()
-            
             self.next()
-            
-        
+
         self.output.append(self.generate_tag("/ifStatement")+"\n")
 
 
@@ -206,16 +183,12 @@ class Compilation:
         self.next()
         self.next()
         
-
         if self.current == ".": #method call
             self.next()
             self.next()
             
-    
         self.next()
-    
         self.compile_expressions()
-
         self.next()
         self.next()
         
@@ -226,7 +199,6 @@ class Compilation:
         self.output.append(self.generate_tag("returnStatement")+"\n")
         self.next()
         
-
         if self.current != ";":
             self.compile_expression()
         
